@@ -1,0 +1,14 @@
+{
+    "Html": "/HelloWorld/LikeableQuotationPage.html",
+    "What": {
+        "Author": "",
+        "Text": ""
+    },
+    "LikesCount": 0,
+    "HasMyLike": false,
+    "$HasMyLike": {
+        "Bind": "_HasMyLike"
+    },
+    "ToggleMyLike$": 0,
+    "ToggleLike$": false
+}

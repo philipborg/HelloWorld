@@ -1,0 +1,25 @@
+﻿<link rel="import" href="/sys/polymer/polymer.html">
+<link rel="stylesheet" href="/HelloWorld/style.css">
+
+<template>
+    <template is="dom-bind" id="quotation-page-template">
+
+        <section class="quotation-page">
+            <figure liked$="{{model.HasMyLike}}">
+                <blockquote>{{model.What.Text}}</blockquote>
+                <figcaption>
+                    <cite>{{model.What.Author}}</cite>
+                </figcaption>
+            </figure>
+
+            <button active$="{{model.ToggleLike$}}" onmousedown="document.querySelector('#quotation-page-template').model.ToggleLike$ = !document.querySelector('#quotation-page-template').model.ToggleLike$; return true">
+                Like
+            </button>
+
+            <span>
+                This quotation has <span>{{model.LikesCount}}</span> likes
+            </span>
+        </section>
+
+    </template>
+</template>

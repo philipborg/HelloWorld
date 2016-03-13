@@ -1,83 +1,147 @@
 ﻿using System;
 using Starcounter;
-using System.Diagnostics;
 
 namespace HelloWorld {
-    [Database]
-    public class Person {
-        public string FirstName;
-        public string LastName;
-        public Person Parent;
-        public Int64 AncestorsCount {
-            get {
-                /*if (Parent != null) {
-                    return Parent.AncestorsCount + 1;
-                }
-                return 0;*/
-
-                Int64 count = 0;
-                Person guy = Parent;
-                while (guy != null) {
-                    guy = guy.Parent;
-                    count++;
-                }
-
-                return count;
-
-
-            }
-        }
-    }
-
     class Program {
-        static void Main() {
-            Stopwatch timer = new Stopwatch();
-            
-
+        static void CreateData() {
+            //delete (with SQL)
             Db.Transact(() => {
-                Db.SlowSQL("DELETE FROM Person");
+                Db.SlowSQL("DELETE FROM \"Like\"");
+                Db.SlowSQL("DELETE FROM Likeable");
+            });
+
+            //delete (with code)
+            var quotations = Db.SQL<Quotation>("SELECT q FROM Quotation q");
+            foreach (var quotation in quotations) {
+                Db.Transact(() => {
+                    quotation.Delete();
+                });
+            }
+
+            //create
+            Db.Transact(() => {
+                var quotation = new Quotation() {
+                    Author = "Albert",
+                    Text = "Wszystko powinno być tak proste, jak to tylko możliwe, ale nie prostsze."
+                };
+
+                var likeable = new Likeable();
+                likeable.What = quotation;
             });
 
 
-            //CREATE
-            timer.Restart();
-            var max = 1000000;
-            Person lastGuy = null;
-            for (var i = 0; i < max; i++) {
+            {
+                //read (with SQL)
+                Likeable likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE What.Author = ?", "Albert").First;
+
+                //read (with code)
+                Quotation quotation = likeable.What;
+
+                //update
                 Db.Transact(() => {
-                    var guy = new Person() {
-                        FirstName = "Marcin",
-                        LastName = "Warpechowski",
-                        Parent = lastGuy
-                    };
-                    lastGuy = guy;
+                    quotation.Author += " Einstein";
                 });
             }
-            timer.Stop();
-            Console.WriteLine("Create: " + timer.ElapsedMilliseconds + " ms");
-            Console.WriteLine("That's " + Math.Abs(max * 1000 / timer.ElapsedMilliseconds) + " tps");
+        }
 
-            //READ AGGREGATE
-            Console.WriteLine("-----");
-            timer.Restart();
-            var number = Db.SlowSQL<Int64>("SELECT COUNT(*) FROM Person p").First;
-            //var number = 0;
-            timer.Stop();
-            Console.WriteLine("Found " + number + " people");
-            Console.WriteLine("Read aggregate: " + timer.ElapsedMilliseconds + " ms");
+        static void Main() {
 
-            //READ CALCULATED PROPERTY
-            Console.WriteLine("-----");
-            timer.Restart();
-            Console.WriteLine("Last person has " + lastGuy.AncestorsCount + "  ancestors");
-            timer.Stop();
-            Console.WriteLine("Read calculated property: " + timer.ElapsedMilliseconds + " ms");
+            CreateData();
+
+            //curl -i -X GET http://127.0.0.1:8080/HelloWorld/likeables
+            Handle.GET("/HelloWorld/likeables", () => {
+                var likeables = Db.SQL<Likeable>("SELECT o FROM Likeable o");
+
+                var json = new LikeablesJson();
+                json.Likeables.Data = likeables;
+
+                return json;
+            });
+
+            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/BnC4Kd/Marcin
+            Handle.POST("/HelloWorld/like/{?}/{?}", (string likeableId, string token) => {
+                var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
+
+                if (likeable == null) {
+                    return new Response() {
+                        StatusCode = 404,
+                        StatusDescription = "Not Found",
+                        Body = "Error: Likeable not found"
+                    };
+                }
+
+                var existing = Db.SQL<Like>("SELECT o FROM \"Like\" o WHERE o.ToWhat = ? AND o.UserToken = ?", likeable, token).First;
+
+                if (existing == null) {
+                    Db.Transact(() => {
+                        new Like() {
+                            ToWhat = likeable,
+                            UserToken = token
+                        };
+                    });
+                    return new Response() {
+                        StatusCode = 200,
+                        Body = "Like created succesfully"
+                    };
+                }
+                else {
+                    return new Response() {
+                        StatusCode = 403,
+                        StatusDescription = "Forbidden",
+                        Body = "Error: Like already exists for this token"
+                    };
+                }
+            });
+
+            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/BnC4Kd/Marcin
+            Handle.DELETE("/HelloWorld/like/{?}/{?}", (string likeableId, string token) => {
+                var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
+
+                if (likeable == null) {
+                    return new Response() {
+                        StatusCode = 404,
+                        StatusDescription = "Not Found",
+                        Body = "Error: Likeable not found"
+                    };
+                }
+
+                var existing = Db.SQL<Like>("SELECT o FROM \"Like\" o WHERE o.ToWhat = ? AND o.UserToken = ?", likeable, token).First;
+
+                if (existing != null) {
+                    Db.Transact(() => {
+                        existing.Delete();
+                    });
+                    return new Response() {
+                        StatusCode = 200,
+                        Body = "Like deleted succesfully"
+                    };
+                }
+                else {
+                    return new Response() {
+                        StatusCode = 403,
+                        StatusDescription = "Forbidden",
+                        Body = "Error: Like that does not exist for this token"
+                    };
+                }
+            });
 
 
-            
-            //Console.WriteLine("Duration " + timer.ElapsedMilliseconds + " ms");
-            
-            
+            Handle.GET("/HelloWorld", () => {
+                var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o FETCH ?", 1).First;
+
+                var page = new LikeableQuotationPage() {
+                    Data = likeable
+                };
+
+                if (Session.Current != null) {
+                    page.Session = Session.Current;
+                }
+                else {
+                    page.Session = new Session(SessionOptions.PatchVersioning);
+                }
+
+                return page;
+            });
 
         }
     }

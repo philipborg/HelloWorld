@@ -1,0 +1,73 @@
+﻿body {
+    background-color: #161616;
+    margin: 0;
+    padding: 0;
+}
+
+.quotation-page {
+    color: #D3D3D3;
+    font: 32px Helvetica, Arial, sans-serif;
+    padding: 65px 40px;
+}
+
+figure {
+    margin: 0 0 40px 0;
+}
+
+blockquote {
+    width: 16em;
+    margin-top: 25px;
+    line-height: 40px;
+    position: relative;
+    border-width: 0;
+    font-size: 1.2em;
+}
+
+    blockquote::before,
+    blockquote::after {
+        font: 80px Times serif;
+        font-weight: bold;
+        position: absolute;
+        line-height: 40px;
+        margin-left: -22px;
+        content: "“";
+        color: #414141;
+        z-index: -1;
+    }
+
+[liked] blockquote {
+    color: lightgreen;
+}
+
+    [liked] blockquote::before,
+    [liked] blockquote::after {
+        color: green;
+    }
+
+blockquote:after {
+    bottom: -12px;
+    content: "”";
+}
+
+cite {
+    margin-top: 10px;
+}
+
+button {
+    background-color: #666;
+    border-radius: 10px;
+    border-width: 0;
+    outline: none;
+    color: black;
+    font-size: 32px;
+}
+
+    button:hover {
+        color: white;
+        cursor: pointer;
+    }
+
+    button[active] {
+        background-color: green;
+        color: white;
+    }
