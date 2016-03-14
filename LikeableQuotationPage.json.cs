@@ -8,24 +8,6 @@ namespace HelloWorld {
             return existing;
         }
 
-        void Handle(Input.ToggleMyLike action) {
-            var sessionId = Session.ToAsciiString();
-            var myLike = GetLike(sessionId);
-            if (myLike == null) {
-                Db.Transact(() => {
-                    new Like() {
-                        ToWhat = Data,
-                        UserToken = sessionId
-                    };
-                });
-            }
-            else {
-                Db.Transact(() => {
-                    myLike.Delete();
-                });
-            }
-        }
-
         public bool _HasMyLike {
             get {
                 var sessionId = Session.ToAsciiString();

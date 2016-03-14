@@ -9,6 +9,5 @@
     "$HasMyLike": {
         "Bind": "_HasMyLike"
     },
-    "ToggleMyLike$": 0,
     "ToggleLike$": false
 }
