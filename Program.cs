@@ -44,6 +44,10 @@ namespace HelloWorld {
             }
         }
 
+        static string GetCurrentUserToken(Request req) {
+            return req.ClientIpAddress.ToString();
+        }
+
         static void Main() {
 
             CreateData();
@@ -58,8 +62,8 @@ namespace HelloWorld {
                 return json;
             });
 
-            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/BnC4Kd/Marcin
-            Handle.POST("/HelloWorld/like/{?}/{?}", (string likeableId, string token) => {
+            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/XXX
+            Handle.POST("/HelloWorld/like/{?}", (Request req, string likeableId) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
 
                 if (likeable == null) {
@@ -70,6 +74,7 @@ namespace HelloWorld {
                     };
                 }
 
+                var token = GetCurrentUserToken(req);
                 var existing = Db.SQL<Like>("SELECT o FROM \"Like\" o WHERE o.ToWhat = ? AND o.UserToken = ?", likeable, token).First;
 
                 if (existing == null) {
@@ -93,8 +98,8 @@ namespace HelloWorld {
                 }
             });
 
-            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/BnC4Kd/Marcin
-            Handle.DELETE("/HelloWorld/like/{?}/{?}", (string likeableId, string token) => {
+            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/XXX
+            Handle.DELETE("/HelloWorld/like/{?}", (Request req, string likeableId) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
 
                 if (likeable == null) {
@@ -105,6 +110,7 @@ namespace HelloWorld {
                     };
                 }
 
+                var token = GetCurrentUserToken(req);
                 var existing = Db.SQL<Like>("SELECT o FROM \"Like\" o WHERE o.ToWhat = ? AND o.UserToken = ?", likeable, token).First;
 
                 if (existing != null) {
@@ -126,11 +132,12 @@ namespace HelloWorld {
             });
 
 
-            Handle.GET("/HelloWorld", () => {
+            Handle.GET("/HelloWorld", (Request req) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o FETCH ?", 1).First;
 
                 var page = new LikeableQuotationPage() {
-                    Data = likeable
+                    Data = likeable,
+                    UserToken = GetCurrentUserToken(req)
                 };
 
                 if (Session.Current != null) {
