@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/HelloWorld/style.css">
 
 <template>
-    <template is="dom-bind" id="quotation-page-template">
+    <template is="dom-bind">
 
         <section class="quotation-page">
             <figure liked$="{{model.HasMyLike}}">
@@ -12,7 +12,7 @@
                 </figcaption>
             </figure>
 
-            <button active$="{{model.HasMyLike}}" onmousedown="document.querySelector('#quotation-page-template').model.ToggleLike$ = !document.querySelector('#quotation-page-template').model.ToggleLike$; return true">
+            <button active$="{{model.HasMyLike}}" value="{{model.ToggleMyLike$::click}}" onmousedown="++this.value">
                 Like
             </button>
 

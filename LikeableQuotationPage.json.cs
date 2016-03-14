@@ -16,7 +16,7 @@ namespace HelloWorld {
             }
         }
 
-        void Handle(Input.ToggleLike action) {
+        void Handle(Input.ToggleMyLike action) {
             var myLike = GetLike(UserToken);
             if (myLike == null) {
                 Db.Transact(() => {
