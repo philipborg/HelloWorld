@@ -98,7 +98,7 @@ namespace HelloWorld {
                 }
             });
 
-            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/XXX
+            //curl -i -X DELETE http://127.0.0.1:8080/HelloWorld/like/XXX
             Handle.DELETE("/HelloWorld/like/{?}", (Request req, string likeableId) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
 
