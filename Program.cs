@@ -26,16 +26,16 @@ namespace HelloWorld {
                 };
 
                 var likeable = new Likeable();
-                likeable.What = quotation;
+                likeable.Quotation = quotation;
             });
 
 
             {
                 //read (with SQL)
-                Likeable likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE What.Author = ?", "Albert").First;
+                Likeable likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE Quotation.Author = ?", "Albert").First;
 
                 //read (with code)
-                Quotation quotation = likeable.What;
+                Quotation quotation = likeable.Quotation;
 
                 //update
                 Db.Transact(() => {
