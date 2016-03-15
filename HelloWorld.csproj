@@ -81,7 +81,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Database\Quotation.cs" />
-    <Compile Include="LikeableQuotationPage.json.cs">
+    <Compile Include="ViewModel\LikeableQuotationPage.json.cs">
       <DependentUpon>LikeableQuotationPage.json</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\LikeablesJson.json.cs">
@@ -101,7 +101,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="LikeableQuotationPage.json">
+    <TypedJSON Include="ViewModel\LikeableQuotationPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
