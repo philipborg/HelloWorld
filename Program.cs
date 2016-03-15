@@ -69,16 +69,12 @@ namespace HelloWorld {
 
 
 
-            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/XXX
+            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/...
             Handle.POST("/HelloWorld/like/{?}", (Request req, string likeableId) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
 
                 if (likeable == null) {
-                    return new Response() {
-                        StatusCode = 404,
-                        StatusDescription = "Not Found",
-                        Body = "Error: Likeable not found"
-                    };
+                    return GetRestResponse(404, "Not Found", "Error: Likeable not found");
                 }
 
                 var token = GetCurrentUserToken(req);
@@ -91,32 +87,21 @@ namespace HelloWorld {
                             UserToken = token
                         };
                     });
-                    return new Response() {
-                        StatusCode = 200,
-                        Body = "Like created succesfully"
-                    };
+                    return GetRestResponse(200, "OK", "Like created succesfully");
                 }
                 else {
-                    return new Response() {
-                        StatusCode = 403,
-                        StatusDescription = "Forbidden",
-                        Body = "Error: Like already exists for this token"
-                    };
+                    return GetRestResponse(403, "Forbidden", "Error: Like already exists for this token");
                 }
             });
 
 
 
-            //curl -i -X DELETE http://127.0.0.1:8080/HelloWorld/like/XXX
+            //curl -i -X DELETE http://127.0.0.1:8080/HelloWorld/like/...
             Handle.DELETE("/HelloWorld/like/{?}", (Request req, string likeableId) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
 
                 if (likeable == null) {
-                    return new Response() {
-                        StatusCode = 404,
-                        StatusDescription = "Not Found",
-                        Body = "Error: Likeable not found"
-                    };
+                    return GetRestResponse(404, "Not Found", "Error: Likeable not found");
                 }
 
                 var token = GetCurrentUserToken(req);
@@ -126,17 +111,10 @@ namespace HelloWorld {
                     Db.Transact(() => {
                         existing.Delete();
                     });
-                    return new Response() {
-                        StatusCode = 200,
-                        Body = "Like deleted succesfully"
-                    };
+                    return GetRestResponse(200, "OK", "Like deleted succesfully");
                 }
                 else {
-                    return new Response() {
-                        StatusCode = 403,
-                        StatusDescription = "Forbidden",
-                        Body = "Error: Like that does not exist for this token"
-                    };
+                    return GetRestResponse(403, "Forbidden", "Error: Like that does not exist for this token");
                 }
             });
 
@@ -153,6 +131,14 @@ namespace HelloWorld {
                 return page;
             });
 
+        }
+
+        static Response GetRestResponse(ushort status, string statusDescription, string body) {
+            return new Response() {
+                StatusCode = status,
+                StatusDescription = statusDescription,
+                Body = body
+            };
         }
 
         static string GetCurrentUserToken(Request req) {
