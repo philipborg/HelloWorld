@@ -5,27 +5,29 @@ namespace HelloWorld {
     class Program {
 
         static void CreateData() {
-            //create
+            //dive into Database directory to see the data model
+
             Db.Transact(() => {
+                //create
                 var quote = new Quotation() {
                     Author = "Albert",
-                    Text = "Wszystko powinno być tak proste, jak to tylko możliwe, ale nie prostsze."
+                    Text = "Everything should be made as simple as possible, but not simpler."
                 };
-
                 var likeable = new Likeable();
                 likeable.Quotation = quote;
-            });
 
 
-            //read
-            Likeable likeableAlbert = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE Quotation.Author = ?", "Albert").First;
-            Quotation quotation = likeableAlbert.Quotation;
+                //read
+                Likeable likeableAlbert = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE Quotation.Author = ?", "Albert").First;
+                Quotation quotation = likeableAlbert.Quotation;
 
 
-            //update
-            Db.Transact(() => {
+                //update
                 quotation.Author += " Einstein";
             });
+
+
+            //go to http://localhost:8181/#/databases/default/sql to browse the data in Administrator
         }
 
 
@@ -56,70 +58,12 @@ namespace HelloWorld {
             }
 
 
-
-            //curl -i -X GET http://127.0.0.1:8080/HelloWorld/likeables
-            Handle.GET("/HelloWorld/likeables", () => {
-                var likeables = Db.SQL<Likeable>("SELECT o FROM Likeable o");
-
-                var json = new LikeablesJson();
-                json.Likeables.Data = likeables;
-
-                return json;
-            });
+            //create REST handlers. Only when you really need a REST API, otherwise just go on to use Puppet
+            REST.CreateRestHandlers();
 
 
-
-            //curl -i -X POST http://127.0.0.1:8080/HelloWorld/like/...
-            Handle.POST("/HelloWorld/like/{?}", (Request req, string likeableId) => {
-                var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
-
-                if (likeable == null) {
-                    return GetRestResponse(404, "Not Found", "Error: Likeable not found");
-                }
-
-                var token = GetCurrentUserToken(req);
-                var existing = Db.SQL<Like>("SELECT o FROM \"Like\" o WHERE o.ToWhat = ? AND o.UserToken = ?", likeable, token).First;
-
-                if (existing == null) {
-                    Db.Transact(() => {
-                        new Like() {
-                            ToWhat = likeable,
-                            UserToken = token
-                        };
-                    });
-                    return GetRestResponse(200, "OK", "Like created succesfully");
-                }
-                else {
-                    return GetRestResponse(403, "Forbidden", "Error: Like already exists for this token");
-                }
-            });
-
-
-
-            //curl -i -X DELETE http://127.0.0.1:8080/HelloWorld/like/...
-            Handle.DELETE("/HelloWorld/like/{?}", (Request req, string likeableId) => {
-                var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o WHERE o.Key = ?", likeableId).First;
-
-                if (likeable == null) {
-                    return GetRestResponse(404, "Not Found", "Error: Likeable not found");
-                }
-
-                var token = GetCurrentUserToken(req);
-                var existing = Db.SQL<Like>("SELECT o FROM \"Like\" o WHERE o.ToWhat = ? AND o.UserToken = ?", likeable, token).First;
-
-                if (existing != null) {
-                    Db.Transact(() => {
-                        existing.Delete();
-                    });
-                    return GetRestResponse(200, "OK", "Like deleted succesfully");
-                }
-                else {
-                    return GetRestResponse(403, "Forbidden", "Error: Like that does not exist for this token");
-                }
-            });
-
-
-            //go to localhost:8080/HelloWorld in your browser
+            //create Puppet handler
+            //this is the entry point for localhost:8080/HelloWorld in your browser
             Handle.GET("/HelloWorld", (Request req) => {
                 var likeable = Db.SQL<Likeable>("SELECT o FROM Likeable o FETCH ?", 1).First;
 
@@ -133,15 +77,7 @@ namespace HelloWorld {
 
         }
 
-        static Response GetRestResponse(ushort status, string statusDescription, string body) {
-            return new Response() {
-                StatusCode = status,
-                StatusDescription = statusDescription,
-                Body = body
-            };
-        }
-
-        static string GetCurrentUserToken(Request req) {
+        public static string GetCurrentUserToken(Request req) {
             return req.ClientIpAddress.ToString();
         }
     }
