@@ -52,6 +52,7 @@ namespace HelloWorld {
         static void Main() {
 
             //create test data
+            //DeleteData();
             var any = Db.SQL<Likeable>("SELECT o FROM Likeable o").First;
             if (any == null) {
                 CreateData();
