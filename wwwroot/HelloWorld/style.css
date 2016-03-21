@@ -29,7 +29,7 @@ blockquote {
         font-weight: bold;
         position: absolute;
         line-height: 40px;
-        margin-left: -22px;
+        margin-left: -16px;
         content: "“";
         color: #414141;
         z-index: -1;
