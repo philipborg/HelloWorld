@@ -1,0 +1,17 @@
+{
+    "Html": "/HelloWorld/ExpensesList.html",
+    "Name$": "",
+    "Expenses": [
+        {
+            "Description": "",
+            "Amount": 0.0
+        }
+    ],
+    "NewExpense": {
+        "Description$": "",
+        "Amount$": 0.0,
+        "Add$": 0
+    },
+    "Total": 0.0,
+    "ClearAll$": 0
+}

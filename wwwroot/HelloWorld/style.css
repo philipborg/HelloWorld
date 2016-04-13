@@ -1,73 +1,84 @@
 ﻿body {
-    background-color: #161616;
-    margin: 0;
+    font-family: sans-serif;
+}
+
+.spender-name {
+    width: 300px;
+    background: aliceblue;
+    border-width: 0;
+    border-bottom: 2px solid lightblue;
+    font-size: 18px;
+    font-family: sans-serif;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.expenses-list {
     padding: 0;
+    list-style-type: none;
+    width: 500px;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
-.quotation-page {
-    color: #D3D3D3;
-    font: 32px Helvetica, Arial, sans-serif;
-    padding: 65px 40px;
+.expense {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    display: flex;
 }
 
-figure {
-    margin: 0 0 40px 0;
+.expense__description,
+.expense__description--new,
+.expense__description--total {
+    width: 200px;
+    border-bottom: 1px solid lightblue;
+    font-size: 16px;
+    font-family: sans-serif;
 }
 
-blockquote {
-    width: 16em;
-    margin-top: 25px;
-    line-height: 40px;
-    position: relative;
+.expense__description--new {
+    background: aliceblue;
     border-width: 0;
-    font-size: 1.2em;
+    border-bottom: 2px solid lightblue;
+    margin-right: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-    blockquote::before,
-    blockquote::after {
-        font: 80px Times serif;
-        font-weight: bold;
-        position: absolute;
-        line-height: 40px;
-        margin-left: -16px;
-        content: "“";
-        color: #414141;
-        z-index: -1;
-    }
-
-[liked] blockquote {
-    color: lightgreen;
+.expense__description--total {
+    border: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-right: 2px;
 }
 
-    [liked] blockquote::before,
-    [liked] blockquote::after {
-        color: green;
-    }
-
-blockquote:after {
-    bottom: -12px;
-    content: "”";
+.expense__amount,
+.expense__amount--new,
+.expense__amount--total {
+    box-sizing: border-box;
+    width: 100px;
+    text-align: right;
+    border-bottom: 1px solid lightblue;
+    font-size: 18px;
+    font-weight: normal;
+    padding-right: 11px;
+    font-family: sans-serif;
+    margin-right: 2px;
 }
 
-cite {
-    margin-top: 10px;
-}
-
-button {
-    background-color: #666;
-    border-radius: 10px;
+.expense__amount--new {
+    width: 98px;
+    background: aliceblue;
     border-width: 0;
-    outline: none;
-    color: black;
-    font-size: 32px;
+    border-bottom: 2px solid lightblue;
+    padding-right: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-    button:hover {
-        color: white;
-        cursor: pointer;
-    }
-
-    button[active] {
-        background-color: green;
-        color: white;
-    }
+.expense__amount--total {
+    border: 0;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

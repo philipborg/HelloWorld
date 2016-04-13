@@ -1,0 +1,28 @@
+﻿<link rel="import" href="/sys/polymer/polymer.html">
+<link rel="stylesheet" href="/HelloWorld/style.css">
+
+<template>
+    <template is="dom-bind">
+        <input class="spender-name" type="text" value="{{model.Name$}}">
+
+        <ul class="expenses-list">
+            <template is="dom-repeat" items="{{model.Expenses}}">
+                <li class="expense">
+                    <span class="expense__description">{{item.Description}}</span>
+                    <span class="expense__amount">{{item.Amount}}</span>
+                </li>
+            </template>
+            <li class="expense">
+                <input class="expense__description--new" type="text" value="{{model.NewExpense.Description$::change}}" placeholder="Entry description">
+                <input class="expense__amount--new" type="number" value="{{model.NewExpense.Amount$::change}}" onfocus="this.select()">
+                <button class="expense__add" value="{{model.NewExpense.Add$::mouseup}}" onmousedown="++this.value">Add</button>
+            </li>
+            <li class="expense">
+                <span class="expense__description--total">Total</span>
+                <span class="expense__amount--total">{{model.Total}}</span>
+                <button class="expense__clear-all" value="{{model.ClearAll$::mouseup}}" onmousedown="++this.value">Clear all</button>
+            </li>
+        </ul>
+
+    </template>
+</template>
