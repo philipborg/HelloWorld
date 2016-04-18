@@ -16,6 +16,9 @@ namespace HelloWorld {
                 });
             }
 
+            Application.Current.Use(new HtmlFromJsonProvider());
+            Application.Current.Use(new PartialToStandaloneHtmlProvider());
+
             //create HTTP handler
             Handle.GET("/HelloWorld", () => {
                 return Db.Scope(() => {
@@ -25,6 +28,7 @@ namespace HelloWorld {
                     json.NewExpense.Data = new Expense() {
                         Amount = 1
                     };
+                    json.Session = new Session(SessionOptions.PatchVersioning);
                     return json;
                 });
             });

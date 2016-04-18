@@ -1,7 +1,7 @@
 using Starcounter;
 
 namespace HelloWorld {
-    partial class ExpensesList : Partial, IBound<Spender> {
+    partial class ExpensesList : Json, IBound<Spender> {
         void Handle(Input.ClearAll action) {
             Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", Data);
             Transaction.Commit();
