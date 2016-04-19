@@ -77,11 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Expense.cs" />
-    <Compile Include="Database\Spender.cs" />
+    <Compile Include="Database\Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\ExpensesList.json.cs">
-      <DependentUpon>ExpensesList.json</DependentUpon>
+    <Compile Include="ViewModel\PersonJson.json.cs">
+      <DependentUpon>PersonJson.json</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -97,11 +97,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\HelloWorld\ExpensesList.html" />
+    <Content Include="wwwroot\HelloWorld\PersonJson.html" />
     <Content Include="wwwroot\HelloWorld\style.css" />
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="ViewModel\ExpensesList.json">
+    <TypedJSON Include="ViewModel\PersonJson.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

@@ -4,7 +4,7 @@ using System;
 namespace HelloWorld {
     [Database]
     public class Expense {
-        public Spender Spender;
+        public Person Spender;
         public string Description;
         public decimal Amount;
     }

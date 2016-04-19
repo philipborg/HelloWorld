@@ -2,7 +2,7 @@
     font-family: sans-serif;
 }
 
-.spender-name {
+.helloworld h1 + input {
     width: 300px;
     background: aliceblue;
     border-width: 0;
@@ -13,30 +13,28 @@
     padding-bottom: 5px;
 }
 
-.expenses-list {
+.helloworld ul {
     padding: 0;
     list-style-type: none;
     width: 500px;
-    display: flex;
-    flex-direction: column-reverse;
 }
 
-.expense {
+.helloworld ul li {
     margin-bottom: 10px;
     padding-bottom: 10px;
     display: flex;
 }
 
-.expense__description,
-.expense__description--new,
-.expense__description--total {
+.helloworld ul li span:first-child,
+.helloworld ul li input:first-child,
+.helloworld ul li:first-child span:first-child {
     width: 200px;
     border-bottom: 1px solid lightblue;
     font-size: 16px;
     font-family: sans-serif;
 }
 
-.expense__description--new {
+.helloworld ul li input:first-child {
     background: aliceblue;
     border-width: 0;
     border-bottom: 2px solid lightblue;
@@ -45,16 +43,16 @@
     padding-bottom: 5px;
 }
 
-.expense__description--total {
+.helloworld ul li:first-child span:first-child {
     border: 0;
     padding-top: 5px;
     padding-bottom: 5px;
     margin-right: 2px;
 }
 
-.expense__amount,
-.expense__amount--new,
-.expense__amount--total {
+.helloworld ul li span:nth-child(2),
+.helloworld ul li input:nth-child(2),
+.helloworld ul li:first-child span:nth-child(2) {
     box-sizing: border-box;
     width: 100px;
     text-align: right;
@@ -66,7 +64,7 @@
     margin-right: 2px;
 }
 
-.expense__amount--new {
+.helloworld ul li input:nth-child(2) {
     width: 98px;
     background: aliceblue;
     border-width: 0;
@@ -76,7 +74,7 @@
     padding-bottom: 5px;
 }
 
-.expense__amount--total {
+.helloworld ul li:first-child span:nth-child(2) {
     border: 0;
     font-weight: bold;
     padding-top: 5px;

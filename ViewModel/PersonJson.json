@@ -1,6 +1,6 @@
 {
-    "Html": "/HelloWorld/ExpensesList.html",
-    "Name$": "",
+    "Html": "/HelloWorld/PersonJson.html",
+    "FirstName$": "",
     "Expenses": [
         {
             "Description": "",
@@ -9,9 +9,9 @@
     ],
     "NewExpense": {
         "Description$": "",
-        "Amount$": 0.0,
-        "Add$": 0
+        "Amount$": 0.0
     },
+    "Add$": 0,
     "Total": 0.0,
     "ClearAll$": 0
 }
