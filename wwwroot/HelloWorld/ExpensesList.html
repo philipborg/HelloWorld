@@ -6,11 +6,8 @@
         <input class="spender-name" type="text" value="{{model.Name$}}">
 
         <ul class="expenses-list">
-            <template is="dom-repeat" items="{{model.Expenses}}">
-                <li class="expense">
-                    <span class="expense__description">{{item.Description}}</span>
-                    <span class="expense__amount">{{item.Amount}}</span>
-                </li>
+            <template is="dom-repeat" items="{{model.ExpenseItems}}">
+                <starcounter-include partial="{{item}}"></starcounter-include>
             </template>
             <li class="expense">
                 <input class="expense__description--new" type="text" value="{{model.NewExpense.Description$::change}}" placeholder="Entry description">

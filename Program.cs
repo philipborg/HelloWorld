@@ -22,15 +22,27 @@ namespace HelloWorld {
             //create HTTP handler
             Handle.GET("/HelloWorld", () => {
                 return Db.Scope(() => {
+                    var _spender = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                     var json = new ExpensesList() {
-                        Data = Db.SQL<Spender>("SELECT s FROM Spender s").First
+                        Data = _spender
                     };
+                    foreach(var expense in _spender.Expenses) {
+                        json.ExpenseItems.Add(Self.GET("/HelloWorld/expense/" + expense.GetObjectID()));
+                    }
                     json.NewExpense.Data = new Expense() {
                         Amount = 1
                     };
                     json.Session = new Session(SessionOptions.PatchVersioning);
                     return json;
                 });
+            });
+
+            Handle.GET("/HelloWorld/expense/{?}", (string ObjectId) => {
+                var expense = DbHelper.FromID(DbHelper.Base64DecodeObjectID(ObjectId));
+                var json = new ExpenseItem() {
+                    Data = expense
+                };
+                return json;
             });
         }
     }
