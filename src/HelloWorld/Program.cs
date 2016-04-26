@@ -7,6 +7,20 @@ namespace HelloWorld
     {
         public string FirstName;
         public string LastName;
+
+        public QueryResultRows<Expense> Spendings
+            => Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this);
+
+        public decimal CurrentBalance
+            => Db.SQL<decimal>("SELECT SUM(e.Amount) FROM Expense e WHERE e.Spender = ?", this).First;
+    }
+
+    [Database]
+    public class Expense
+    {
+        public Person Spender;
+        public string Description;
+        public decimal Amount;
     }
 
     class Program
@@ -47,6 +61,13 @@ namespace HelloWorld
 
                     return json;
                 });
+            });
+
+            Handle.GET("/HelloWorld/partial/expense/{?}", (string id) =>
+            {
+                var json = new ExpenseJson();
+                json.Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id));
+                return json;
             });
         }
     }
