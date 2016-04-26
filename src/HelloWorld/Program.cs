@@ -1,4 +1,6 @@
-﻿using Starcounter;
+﻿using System;
+using Starcounter;
+using System.Collections.Generic;
 
 namespace HelloWorld
 {
@@ -7,6 +9,20 @@ namespace HelloWorld
     {
         public string FirstName;
         public string LastName;
+
+        public QueryResultRows<Expense> Spendings
+            => Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this);
+
+        public decimal CurrentBalance
+            => Db.SQL<decimal>("SELECT SUM(e.Amount) FROM Expense e WHERE e.Spender = ?", this).First;
+    }
+
+    [Database]
+    public class Expense
+    {
+        public Person Spender;
+        public string Description;
+        public decimal Amount;
     }
 
     class Program
@@ -43,8 +59,22 @@ namespace HelloWorld
                     }
                     json.Session = Session.Current;
 
+                    var expenses = person.Spendings;
+                    foreach (var expense in expenses)
+                    {
+                        var expenseJson = Self.GET("/HelloWorld/partial/expense/" + expense.GetObjectID());
+                        json.Expenses.Add(expenseJson);
+                    }
+
                     return json;
                 });
+            });
+
+            Handle.GET("/HelloWorld/partial/expense/{?}", (string id) =>
+            {
+                var json = new ExpenseJson();
+                json.Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id));
+                return json;
             });
         }
     }
