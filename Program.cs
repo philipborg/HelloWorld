@@ -21,10 +21,14 @@ namespace HelloWorld {
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
             Handle.GET("/HelloWorld", () => {
-                var json = new PersonJson();
-                json.Data = Db.SQL<Person>("SELECT p FROM Person p WHERE p.LastName = ?", "Doe").First;
-                json.Session = new Session(SessionOptions.PatchVersioning);
-                return json;
+                return Db.Scope(() => {
+                    var person = Db.SQL<Person>("SELECT p FROM Person p WHERE p.LastName = ?", "Doe").First;
+                    var json = new PersonJson() {
+                        Data = person
+                    };
+                    json.Session = new Session(SessionOptions.PatchVersioning);
+                    return json;
+                });
             });
         }
     }
