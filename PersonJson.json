@@ -7,5 +7,7 @@
     "$FullName": {"Bind": "_FullName"},
     "Expenses": [ { } ],
     "AddNewExpense$": 0,
-    "CurrentBalance": 0
+    "CurrentBalance": 0,
+    "Cancel$": 0,
+    "DeleteAll$": 0
 }
