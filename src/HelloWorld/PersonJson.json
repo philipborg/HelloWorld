@@ -3,5 +3,8 @@
   "FirstName$": "",
   "LastName$": "",
   "SaveTrigger$": 0,
-  "FullName": ""
+  "FullName": "",
+  "Expenses": [{}],
+  "AddNewExpenseTrigger$": 0,
+  "CurrentBalance": 0
 }
