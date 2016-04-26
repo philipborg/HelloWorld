@@ -6,6 +6,10 @@ namespace HelloWorld {
             Transaction.Commit();
         }
 
+        void Handle(Input.Cancel action) {
+            Transaction.Rollback();
+        }
+
         void Handle(Input.AddNewExpense action) {
             Transaction.Commit();
 
@@ -15,6 +19,12 @@ namespace HelloWorld {
             };
             var expenseJson = Self.GET("/HelloWorld/partial/expense/" + expense.GetObjectID());
             this.Expenses.Add(expenseJson);
+        }
+
+        void Handle(Input.DeleteAll action) {
+            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
+            Transaction.Commit();
+            this.Expenses.Clear();
         }
     }
 }
