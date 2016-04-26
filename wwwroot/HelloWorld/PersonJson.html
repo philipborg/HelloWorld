@@ -1,13 +1,15 @@
 ﻿<template>
     <template is="dom-bind">
-        <h1>Hey!</h1>
+        <h1>Hey, {{model.FullName}}!</h1>
 
         <label>First name:</label>
         
-        <div><strong>{{model.FirstName}}</strong></div>
+        <div><input value="{{model.FirstName$::input}}"></div>
 
         <label>Last name:</label>
 
-        <div><strong>{{model.LastName}}</strong></div>
+        <div><input value="{{model.LastName$::input}}"></div>
+
+        <button value="{{model.Save$::click}}" onmousedown="++this.value">Save</button>
     </template>
 </template>
