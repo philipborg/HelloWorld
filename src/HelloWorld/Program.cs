@@ -59,6 +59,11 @@ namespace HelloWorld
                     }
                     json.Session = Session.Current;
 
+                    if (person.Spendings == null)
+                    {
+                        json.RefreshExpenses(person.Spendings);
+                    }
+
                     return json;
                 });
             });
