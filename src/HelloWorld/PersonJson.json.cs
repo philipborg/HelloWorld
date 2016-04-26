@@ -1,8 +1,9 @@
 using Starcounter;
+using System.Collections.Generic;
 
 namespace HelloWorld
 {
-    partial class PersonJson : Json
+    partial class PersonJson : Json, IBound<Person>
     {
         static PersonJson()
         {
@@ -16,6 +17,11 @@ namespace HelloWorld
             Transaction.Commit();
         }
 
+        void Handle(Input.CancelTrigger action)
+        {
+            Transaction.Rollback();
+        }
+
         void Handle(Input.NewExpenseTrigger action)
         {
             new Expense()
@@ -23,6 +29,12 @@ namespace HelloWorld
                 Spender = this.Data as Person,
                 Amount = 1
             };
+        }
+
+        void Handle(Input.DeleteAllTrigger action)
+        {
+            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
+            this.Expenses.Clear();
         }
     }
 }
