@@ -58,7 +58,7 @@ namespace HelloWorld
                         Session.Current = new Session(SessionOptions.PatchVersioning);
                     }
                     json.Session = Session.Current;
-
+                    json.RefreshExpenses(person.Spendings);
                     return json;
                 });
             });
