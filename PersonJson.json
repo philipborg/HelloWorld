@@ -2,5 +2,8 @@
     "Html": "/HelloWorld/PersonJson.html",
     "FirstName$": "",
     "LastName$": "",
-    "Save$": 0
+    "Save$": 0,
+    "Expenses": [ { } ],
+    "AddNewExpense$": 0,
+    "CurrentBalance": 0
 }

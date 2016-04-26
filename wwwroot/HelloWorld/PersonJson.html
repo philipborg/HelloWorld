@@ -1,10 +1,24 @@
 ﻿<template>
     <template is="dom-bind">
-        <h1>Hey, {{model.FirstName$}} {{model.LastName$}}!</h1>
+        <h1>{{model.FirstName$}} {{model.LastName$}}'s expense list</h1>
 
         <input value="{{model.FirstName$::input}}">
         <input value="{{model.LastName$::input}}">
 
         <button value="{{model.Save$::mouseup}}" onmousedown="++this.value">Save</button>
+
+        <hr>
+
+        <template is="dom-repeat" items="{{model.Expenses}}">
+            <div>
+                <starcounter-include partial="{{item.HelloWorld}}"></starcounter-include>
+            </div>
+        </template>
+
+        <button value="{{model.AddNewExpense$::mouseup}}" onmousedown="++this.value">Add new expense</button>
+
+        <hr>
+
+        <h2>Current Balance: {{model.CurrentBalance}}</h2>
     </template>
 </template>
