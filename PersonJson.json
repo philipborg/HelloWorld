@@ -4,5 +4,8 @@
     "LastName$": "",
     "Save$": 0,
     "FullName": "",
-    "$FullName": {"Bind": "_FullName"}
+    "$FullName": {"Bind": "_FullName"},
+    "Expenses": [ { } ],
+    "AddNewExpense$": 0,
+    "CurrentBalance": 0
 }

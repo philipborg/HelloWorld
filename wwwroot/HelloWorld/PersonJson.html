@@ -1,6 +1,6 @@
 ﻿<template>
     <template is="dom-bind">
-        <h1>Hey, {{model.FullName}}!</h1>
+        <h1>{{model.FullName}}'s expense list</h1>
 
         <label>First name:</label>
         
@@ -11,5 +11,19 @@
         <div><input value="{{model.LastName$::input}}"></div>
 
         <button value="{{model.Save$::click}}" onmousedown="++this.value">Save</button>
+
+        <hr>
+
+        <template is="dom-repeat" items="{{model.Expenses}}">
+            <div>
+                <starcounter-include partial="{{item.HelloWorld}}"></starcounter-include>
+            </div>
+        </template>
+
+        <button value="{{model.AddNewExpense$::click}}" onmousedown="++this.value">Add new expense</button>
+
+        <hr>
+
+        <h2>Current Balance: {{model.CurrentBalance}}</h2>
     </template>
 </template>
