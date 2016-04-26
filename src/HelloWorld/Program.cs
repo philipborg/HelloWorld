@@ -23,6 +23,20 @@ namespace HelloWorld
                         LastName = "Doe"
                     };
                 });
+
+            Application.Current.Use(new HtmlFromJsonProvider());
+            Application.Current.Use(new PartialToStandaloneHtmlProvider());
+
+            Handle.GET("/HelloWorld", () =>
+            {
+                var person = Db.SQL<Person>("SELECT p FROM Person p").First;
+                var json = new PersonJson
+                {
+                    Data = person
+                };
+                json.Session = new Session(SessionOptions.PatchVersioning);
+                return json;
+            });
         }
     }
 }
