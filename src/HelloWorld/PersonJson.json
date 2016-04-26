@@ -3,5 +3,8 @@
   "FirstName$": "",
   "LastName$": "",
   "Save$": 0,
-  "FullName": ""
+  "FullName": "",
+  "Expenses": [{}],
+  "AddNewExpense$": 0,
+  "CurrentBalance": 0
 }
