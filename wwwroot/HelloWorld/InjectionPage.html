@@ -1,6 +1,6 @@
 ﻿<template>
     <template is="dom-bind">
-        <h1>Hey, {{model.FirstName}} {{model.LastName}}!</h1>
+        <button type="button" onclick="++this.value;" value="{{model.Announce$::click}}">Announce</button>
         <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
     </template>
 </template>

@@ -76,6 +76,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InjectionJson.json.cs">
+      <DependentUpon>InjectionJson.json</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage.json.cs">
+      <DependentUpon>MasterPage.json</DependentUpon>
+    </Compile>
     <Compile Include="PersonJson.json.cs">
       <DependentUpon>PersonJson.json</DependentUpon>
     </Compile>
@@ -100,7 +106,19 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\HelloWorld\InjectionPage.html" />
+    <Content Include="wwwroot\HelloWorld\MasterPage.html" />
     <Content Include="wwwroot\HelloWorld\PersonJson.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="InjectionJson.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+  </ItemGroup>
+  <ItemGroup>
+    <TypedJSON Include="MasterPage.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(StarcounterBin)\Starcounter.MsBuild.targets" />
