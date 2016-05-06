@@ -1,3 +1,4 @@
+using System;
 using Starcounter;
 
 namespace HelloWorld {
@@ -5,7 +6,11 @@ namespace HelloWorld {
     {
         void Handle(Input.Announce Action)
         {
-            var session = Session.Current;
+            var currentPage = Session.Current.Data;
+            if (currentPage == null)
+            {
+                throw new Exception("Empty current session data");
+            }
         }
     }
 }
