@@ -19,6 +19,7 @@ namespace HelloWorld {
 
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
+            Application.Current.Use(new JsonAutoSessions());
 
             Handle.GET("/HelloWorld", () => {
                 return Db.Scope(() => {
@@ -26,7 +27,7 @@ namespace HelloWorld {
                     var json = new PersonJson() {
                         Data = person
                     };
-                    json.Session = new Session(SessionOptions.PatchVersioning);
+                    //json.Session = new Session(SessionOptions.PatchVersioning);
                     return json;
                 });
             });
