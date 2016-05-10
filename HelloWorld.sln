@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "HelloWorld.csproj", "{468FBFAA-91D5-417D-8713-1933FE1E5BE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldPart", "..\HelloWorldPart\HelloWorldPart.csproj", "{CF262774-2052-4FE9-BC40-187A52B291D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldPart", "HelloWorldPart\HelloWorldPart.csproj", "{CF262774-2052-4FE9-BC40-187A52B291D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
