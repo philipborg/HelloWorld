@@ -76,6 +76,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StarcounterNext\MyPartialToStandaloneHtmlProvider.cs" />
+    <Compile Include="StarcounterNext\PartialToStandaloneHtmlProvider.cs" />
     <Compile Include="PersonJson.json.cs">
       <DependentUpon>PersonJson.json</DependentUpon>
     </Compile>
