@@ -25,7 +25,9 @@
     <template is=""dom-bind"" id=""puppet-root"">
         <template is=""imported-template"" content$=""{{{{model.Html}}}}"" model=""{{{{model}}}}""></template>
     </template>
+
     <puppet-client ref=""puppet-root""></puppet-client>
+
     <starcounter-debug-aid></starcounter-debug-aid>
 </body>
 </html>") {
