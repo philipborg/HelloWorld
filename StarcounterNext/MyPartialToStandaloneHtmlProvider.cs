@@ -1,4 +1,6 @@
-﻿namespace HelloWorld {
+﻿using Starcounter;
+
+namespace HelloWorld {
     class MyPartialToStandaloneHtmlProvider : PartialToStandaloneHtmlProvider {
         public MyPartialToStandaloneHtmlProvider() : base(@"<!DOCTYPE html>
 <html>
@@ -13,11 +15,6 @@
     <link rel=""import"" href=""/sys/imported-template/imported-template.html"">
     
     <link rel=""import"" href=""/sys/bootstrap.html"">
-    <style>
-        body {{
-            margin: 20px;
-        }}
-    </style>
 
     <link rel=""import"" href=""/sys/starcounter-debug-aid/src/starcounter-debug-aid.html"">
 </head>
