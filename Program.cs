@@ -10,19 +10,22 @@ namespace HelloWorld {
 
     class Program {
         static void Main() {
-            Db.Transact(() => {
-                new Person() {
-                    FirstName = "John",
-                    LastName = "Doe"
-                };
-            });
+            var anyone = Db.SQL<Person>("SELECT p FROM Person p").First;
+            if (anyone == null) {
+                Db.Transact(() => {
+                    new Person() {
+                        FirstName = "John",
+                        LastName = "Doe"
+                    };
+                });
+            }
 
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new MyPartialToStandaloneHtmlProvider());
 
             Handle.GET("/HelloWorld", () => {
                 return Db.Scope(() => {
-                    var person = Db.SQL<Person>("SELECT p FROM Person p WHERE p.LastName = ?", "Doe").First;
+                    var person = Db.SQL<Person>("SELECT p FROM Person p").First;
                     var json = new PersonJson() {
                         Data = person
                     };
