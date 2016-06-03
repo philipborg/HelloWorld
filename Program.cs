@@ -40,11 +40,7 @@ namespace HelloWorld {
                         Data = person
                     };
 
-                    var expenses = person.Spendings;
-                    foreach (var expense in expenses) {
-                        var expenseJson = Self.GET("/HelloWorld/partial/expense/" + expense.GetObjectID());
-                        json.Expenses.Add(expenseJson);
-                    }
+                    
 
                     json.Session = new Session(SessionOptions.PatchVersioning);
                     return json;
