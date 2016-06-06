@@ -29,13 +29,16 @@ namespace HelloWorld
 
             Handle.GET("/HelloWorld", () =>
             {
-                var person = Db.SQL<Person>("SELECT p FROM Person p").First;
-                var json = new PersonJson
+                return Db.Scope(() =>
                 {
-                    Data = person
-                };
-                json.Session = new Session(SessionOptions.PatchVersioning);
-                return json;
+                    var person = Db.SQL<Person>("SELECT p FROM Person p").First;
+                    var json = new PersonJson()
+                    {
+                        Data = person
+                    };
+                    json.Session = new Session(SessionOptions.PatchVersioning);
+                    return json;
+                });
             });
         }
     }
