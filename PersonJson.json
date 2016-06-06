@@ -2,5 +2,7 @@
     "Html": "/HelloWorld/PersonJson.html",
     "FirstName$": "",
     "LastName$": "",
-    "Save$": 0
+    "Save$": 0,
+    "FullName": "",
+    "$FullName": {"Bind": "_FullName"}
 }
