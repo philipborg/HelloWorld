@@ -20,8 +20,7 @@ namespace HelloWorld {
                 });
             }
 
-            Application.Current.Use(new HtmlFromJsonProvider());
-            Application.Current.Use(new PartialToStandaloneHtmlProvider());
+            Application.Current.Use(new PuppetJsProvider());
 
             Handle.GET("/HelloWorld", () => {
                 return Db.Scope(() => {
