@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HelloWorld
 {
-    partial class PersonJson : Json, IBound<Person>
+    partial class PersonJson : Json, IBound<Spender>
     {
         public string FullName => FirstName + " " + LastName;
 
@@ -22,7 +22,7 @@ namespace HelloWorld
         {
             var expense = new Expense()
             {
-                Spender = (Person) this.Data,
+                Spender = (Spender) this.Data,
                 Amount = 1
             };
             AddExpense(expense);
