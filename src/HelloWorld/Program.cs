@@ -1,21 +1,20 @@
-﻿using Starcounter;
+using Starcounter;
+using Simplified.Ring1;
+using Simplified.Ring2;
 
 namespace HelloWorld
 {
     [Database]
-    public class Person
+    public class Spender : Person
     {
-        public string FirstName;
-        public string LastName;
         public QueryResultRows<Expense> Expenses => Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this);
         public decimal CurrentBalance => Db.SQL<decimal>("SELECT SUM(e.Amount) FROM Expense e WHERE e.Spender = ?", this).First;
     }
 
     [Database]
-    public class Expense
+    public class Expense : Something
     {
-        public Person Spender;
-        public string Description;
+        public Spender Spender;
         public decimal Amount;
     }
 
@@ -25,10 +24,10 @@ namespace HelloWorld
         {
             Db.Transact(() =>
             {
-                var anyone = Db.SQL<Person>("SELECT p FROM Person p").First;
+                var anyone = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                 if (anyone == null)
-                {
-                    new Person
+                { 
+                    new Spender()
                     {
                         FirstName = "John",
                         LastName = "Doe"
@@ -43,7 +42,7 @@ namespace HelloWorld
             {
                 return Db.Scope(() =>
                 {
-                    var person = Db.SQL<Person>("SELECT p FROM Person p").First;
+                    var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                     var json = new PersonJson()
                     {
                         Data = person

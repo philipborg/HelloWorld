@@ -25,7 +25,7 @@ namespace HelloWorld
         {
             new Expense()
             {
-                Spender = this.Data as Person,
+                Spender = this.Data as Spender,
                 Amount = 1
             };
         }
