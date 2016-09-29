@@ -20,7 +20,7 @@ namespace HelloWorld
         {
             var expense = new Expense()
             {
-                Spender = (Person) this.Data,
+                Spender = (Spender) this.Data,
                 Amount = 1
             };
             var expenseJson = Self.GET("/HelloWorld/partial/expense/" + expense.GetObjectID());

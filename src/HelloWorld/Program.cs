@@ -1,15 +1,14 @@
 ﻿using System;
 using Starcounter;
 using System.Collections.Generic;
+using Simplified.Ring1;
+using Simplified.Ring2;
 
 namespace HelloWorld
 {
     [Database]
-    public class Person
+    public class Spender : Person
     {
-        public string FirstName;
-        public string LastName;
-
         public QueryResultRows<Expense> Spendings
             => Db.SQL<Expense>("SELECT e FROM Expense e WHERE e.Spender = ?", this);
 
@@ -18,10 +17,9 @@ namespace HelloWorld
     }
 
     [Database]
-    public class Expense
+    public class Expense : Something
     {
-        public Person Spender;
-        public string Description;
+        public Spender Spender;
         public decimal Amount;
     }
 
@@ -29,16 +27,18 @@ namespace HelloWorld
     {
         static void Main()
         {
-            var anyone = Db.SQL<Person>("SELECT p FROM Person p").First;
+            var anyone = Db.SQL<Spender>("SELECT s FROM Spender s").First;
             if (anyone == null)
+            {
                 Db.Transact(() =>
                 {
-                    new Person
+                    new Spender()
                     {
                         FirstName = "John",
                         LastName = "Doe"
                     };
                 });
+            }
 
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
@@ -47,7 +47,7 @@ namespace HelloWorld
             {
                 return Db.Scope(() =>
                 {
-                    var person = Db.SQL<Person>("SELECT p FROM Person p").First;
+                    var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                     var json = new PersonJson()
                     {
                         Data = person
