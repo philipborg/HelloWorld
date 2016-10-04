@@ -73,6 +73,9 @@
       <Name>HelloWorld</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ExpenseJsonComposition.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(StarcounterBin)\Starcounter.MsBuild.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
