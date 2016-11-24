@@ -39,7 +39,7 @@ namespace Starcounter
         <template is=""imported-template"" content$=""{{{{model.Html}}}}"" model=""{{{{model}}}}""></template>
     </template>
 
-    <puppet-client ref=""puppet-root""></puppet-client>
+    <puppet-client ref=""puppet-root"" remote-url=""{1}""></puppet-client>
 
     <starcounter-debug-aid></starcounter-debug-aid>
 </body>
@@ -78,9 +78,9 @@ namespace Starcounter
                 var json = context.Resource as Json;
                 if (json != null)
                 {
-                    if (!IsFullPageHtml(content))
+                    if (!IsFullPageHtml(content) && json.Session != null)
                     {
-                        content = ProvideImplicitStandalonePage(content, context.Request.HandlerAppName, template);
+                        content = ProvideImplicitStandalonePage(content, context.Request.HandlerAppName, json.Session.SessionUri, template);
                         context.Result = content;
                     }
                 }
@@ -89,9 +89,9 @@ namespace Starcounter
             next();
         }
 
-        internal static byte[] ProvideImplicitStandalonePage(byte[] content, string appName, string template = ImplicitStandaloneTemplate)
+        internal static byte[] ProvideImplicitStandalonePage(byte[] content, string appName, string sessionUri, string template = ImplicitStandaloneTemplate)
         {
-            var html = String.Format(template, appName);
+            var html = String.Format(template, appName, sessionUri);
             return defaultEncoding.GetBytes(html);
         }
 
