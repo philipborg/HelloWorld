@@ -4,6 +4,17 @@ using Starcounter;
 using Starcounter.Internal;
 
 namespace HelloWorld {
+    /// <summary>
+    /// For any HTTP request with `Accept: text/html` without a Starcounter session
+    /// returns an implicit HTML template that contains code to bootstrap a PuppetJs 
+    /// connection instead of the HTTP handler.
+    /// 
+    /// A custom HTML template can be provided as a string parameter to the constructor.
+    /// 
+    /// For any HTTP request with `Accept: application/json` that has a response of type Json
+    /// and a Session attached, adds the session URL as a `X-Location` response header. 
+    /// The header is used by PuppetJs to upgrade the connection to WebSocket.
+    /// </summary>
     public class PuppetJsProvider : IMiddleware {
         static Encoding defaultEncoding = Encoding.UTF8;
         readonly string template = ImplicitStandaloneTemplate;
@@ -50,7 +61,7 @@ namespace HelloWorld {
 
         void IMiddleware.Register(Application application) {
             application.Use((Request req) => {
-                if(req.PreferredMimeType == MimeType.Text_Html) {
+                if(req.PreferredMimeType == MimeType.Text_Html && req.Session == null) {
                     var content = new byte[0];
                     return new Response() {
                         StatusCode = 200,
@@ -66,7 +77,7 @@ namespace HelloWorld {
                     var json = res.Resource as Json;
                     if (json != null && json.Session != null) {
                         res.Headers["X-Location"] = ScSessionClass.DataLocationUriPrefix + json.Session.SessionId;
-                        res.Headers["Set-Cookie"] = ""; //prevent Starcounter from setting Location cookie
+                        res.Headers["Set-Cookie"] = ""; //prevent Starcounter from setting Location cookie; remove this line when Starcounter does not set the Location cookie anymore
                     }
                 }
                 return null;
