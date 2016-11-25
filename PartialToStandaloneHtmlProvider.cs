@@ -5,9 +5,21 @@ using System.Text;
 namespace Starcounter
 {
     /// <summary>
-    /// Provide "standalone HTML" when a JSON is returned from a handler, and
-    /// that JSON provide a partial HTML (normally, using HtmlFromJsonProvider
-    /// middleware).
+    /// For any HTTP request with `Accept: text/html` with a response that is HTML,
+    /// checks if the HTML document is a partial (does not start with a doctype).
+    /// If yes, returns an implicit HTML template that contains code to bootstrap 
+    /// a PuppetJs connection instead of that HTML. 
+    /// 
+    /// The HTML template cointans the session URL that was returned from the handler, 
+    /// so that PuppetJs can request the relevant Json in a following request.
+    /// 
+    /// Must be used after `HtmlFromJsonProvider` middleware.
+    /// 
+    /// A custom HTML template can be provided as a string parameter to the constructor.
+    /// 
+    /// Middleware only wraps requests that have a HTTP handler. Since this middleware
+    /// wraps the actual response, it will also have the HTTP status code
+    /// that was returned from the handler.
     /// </summary>
     public class PartialToStandaloneHtmlProvider : IMiddleware
     {
