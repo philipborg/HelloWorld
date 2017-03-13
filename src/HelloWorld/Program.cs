@@ -48,7 +48,6 @@ namespace HelloWorld
                     var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                     var json = new PersonJson()
                     {
-                        Data = person
                     };
 
                     if (Session.Current == null)
@@ -56,20 +55,20 @@ namespace HelloWorld
                         Session.Current = new Session(SessionOptions.PatchVersioning);
                     }
                     json.Session = Session.Current;
+                    json.Data = person;
 
-                    if (person.Spendings != null)
-                    {
-                        json.RefreshExpenses(person.Spendings);
-                    }
+                    
 
                     return json;
                 });
             });
+            
 
-            Handle.GET("/HelloWorld/partial/expense/{?}", (string id) =>
+            Handle.GET("/HelloWorld/personwithexpenses", () =>
             {
-                var json = new ExpenseJson();
-                json.Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id));
+                var json = new PersonWithExpenses();
+                var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
+                json.Data = person;
                 return json;
             });
         }

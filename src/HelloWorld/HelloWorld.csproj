@@ -79,11 +79,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExpenseJson.json.cs">
-      <DependentUpon>ExpenseJson.json</DependentUpon>
-    </Compile>
     <Compile Include="PersonJson.json.cs">
       <DependentUpon>PersonJson.json</DependentUpon>
+    </Compile>
+    <Compile Include="PersonWithExpenses.json.cs">
+      <DependentUpon>PersonWithExpenses.json</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,11 +106,10 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\HelloWorld\ExpenseJson.html" />
     <Content Include="wwwroot\HelloWorld\PersonJson.html" />
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="ExpenseJson.json">
+    <TypedJSON Include="PersonWithExpenses.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
