@@ -1,0 +1,6 @@
+<template>
+    <template is="dom-bind">
+        <button value="{{model.ShowSubpage$::click}}" onmousedown="++this.value">Show subpage</button>
+        <starcounter-include partial="{{model.CurrentPage}}"></starcounter-include>
+    </template>
+</template>

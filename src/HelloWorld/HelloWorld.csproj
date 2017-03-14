@@ -79,11 +79,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PersonJson.json.cs">
-      <DependentUpon>PersonJson.json</DependentUpon>
+    <Compile Include="MasterPage.json.cs">
+      <DependentUpon>MasterPage.json</DependentUpon>
     </Compile>
-    <Compile Include="PersonWithExpenses.json.cs">
-      <DependentUpon>PersonWithExpenses.json</DependentUpon>
+    <Compile Include="SpenderPage.json.cs">
+      <DependentUpon>SpenderPage.json</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,15 +101,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="PersonJson.json">
+    <TypedJSON Include="MasterPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\HelloWorld\PersonJson.html" />
+    <Content Include="wwwroot\HelloWorld\MasterPage.html" />
+    <None Include="wwwroot\HelloWorld\SpenderPage.html" />
   </ItemGroup>
   <ItemGroup>
-    <TypedJSON Include="PersonWithExpenses.json">
+    <TypedJSON Include="SpenderPage.json">
       <Generator>MsBuild:Compile</Generator>
     </TypedJSON>
   </ItemGroup>

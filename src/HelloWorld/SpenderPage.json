@@ -1,0 +1,10 @@
+{
+  "Html": "/HelloWorld/SpenderPage.html",
+  "FullName": "",
+  "Spendings": [
+    {
+      "Description": "",
+      "Amount": 1.0 
+    }
+  ]  
+}

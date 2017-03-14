@@ -1,0 +1,11 @@
+﻿<template>
+    <template is="dom-bind">
+        <h1>{{model.FullName}}'s spendings</h1>
+
+        <template is="dom-repeat" items="{{model.Spendings}}">
+            <div>
+                {{item.Description}} | {{item.Amount}}
+            </div>
+        </template>
+    </template>
+</template>

@@ -29,11 +29,18 @@ namespace HelloWorld
             {
                 var anyone = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                 if (anyone == null)
-                { 
-                    new Spender()
+                {
+                    anyone = new Spender()
                     {
                         FirstName = "John",
                         LastName = "Doe"
+                    };
+
+                    new Expense()
+                    {
+                        Spender = anyone,
+                        Description = "Milk",
+                        Amount = 10m
                     };
                 }
             });
@@ -43,30 +50,19 @@ namespace HelloWorld
 
             Handle.GET("/HelloWorld", () =>
             {
-                return Db.Scope(() =>
+                var json = new MasterPage() {};
+
+                if (Session.Current == null)
                 {
-                    var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
-                    var json = new PersonJson()
-                    {
-                    };
-
-                    if (Session.Current == null)
-                    {
-                        Session.Current = new Session(SessionOptions.PatchVersioning);
-                    }
-                    json.Session = Session.Current;
-                    json.Data = person;
-
-                    
-
-                    return json;
-                });
+                    Session.Current = new Session(SessionOptions.PatchVersioning);
+                }
+                json.Session = Session.Current;
+                return json;
             });
-            
 
-            Handle.GET("/HelloWorld/personwithexpenses", () =>
+            Handle.GET("/HelloWorld/subpage", () =>
             {
-                var json = new PersonWithExpenses();
+                var json = new SpenderPage();
                 var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                 json.Data = person;
                 return json;
