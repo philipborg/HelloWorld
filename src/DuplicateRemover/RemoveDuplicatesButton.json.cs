@@ -1,6 +1,7 @@
 using System;
 using Simplified.Ring1;
 using Starcounter;
+using System.Collections.Generic;
 
 namespace DuplicateRemover
 {
@@ -15,7 +16,16 @@ namespace DuplicateRemover
 
         private void FindDuplicates(QueryResultRows<Something> items)
         {
-            throw new NotImplementedException();
+            List<string> descriptions = new List<string>();
+            foreach(Something item in items)
+            {
+                if (descriptions.Contains(item.Description)){
+                    item.Delete();
+                } else
+                {
+                    descriptions.Add(item.Description);
+                }
+            }
         }
     }
 }

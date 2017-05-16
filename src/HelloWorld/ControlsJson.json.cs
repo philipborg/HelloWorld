@@ -25,7 +25,7 @@ namespace HelloWorld
 
         void Handle(Input.DeleteAllTrigger action)
         {
-            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
+            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Parent.Data);
             (this.Parent as PersonJson).Expenses.Clear();
         }
     }
