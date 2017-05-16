@@ -38,37 +38,31 @@ namespace HelloWorld
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
-            Handle.GET("/HelloWorld/Controls", () =>
-            {
-                var json = new ControlsJson();
-
-                if (Session.Current == null)
-                {
-                    Session.Current = new Session(SessionOptions.PatchVersioning);
-                }
-                json.Session = Session.Current;
-                return json;
-            });
+            Handle.GET("/HelloWorld/Controls", () => new ControlsJson());
 
             Handle.GET("/HelloWorld", () =>
             {
                 return Db.Scope(() =>
                 {
                     var person = Db.SQL<Spender>("SELECT s FROM Spender s").First;
-                    var json = new PersonJson()
-                    {
-                        Data = person
-                    };
 
                     if (Session.Current == null)
                     {
                         Session.Current = new Session(SessionOptions.PatchVersioning);
                     }
-                    json.Session = Session.Current;
-                    //json.Controls = Self.GET<ControlsJson>("/HelloWorld/Controls");
+
+                    var json = new PersonJson()
+                    {
+                        Data = person,
+                        Controls = Self.GET<ControlsJson>("/HelloWorld/Controls"),
+                        Session = Session.Current
+                    };
+
                     return json;
                 });
             });
+
+            Blender.MapUri("/HelloWorld/Controls", "controls");
         }
     }
 }

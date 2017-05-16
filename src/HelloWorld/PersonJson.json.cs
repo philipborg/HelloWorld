@@ -10,7 +10,5 @@ namespace HelloWorld
         }
 
         public string FullName => FirstName + " " + LastName;
-
-
     }
 }

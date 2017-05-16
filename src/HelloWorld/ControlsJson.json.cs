@@ -18,7 +18,7 @@ namespace HelloWorld
         {
             new Expense()
             {
-                Spender = this.Data as Spender,
+                Spender = (this.Parent as PersonJson).Data as Spender,
                 Amount = 1
             };
         }
@@ -26,8 +26,7 @@ namespace HelloWorld
         void Handle(Input.DeleteAllTrigger action)
         {
             Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
-            //???
-            //this.Expenses.Clear();
+            (this.Parent as PersonJson).Expenses.Clear();
         }
     }
 }

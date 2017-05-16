@@ -15,8 +15,9 @@
         <hr>
 
         <template is="dom-repeat" items="{{model.Expenses}}">
-             <starcounter-include partial="{{item}}"></starcounter-include>
-            <br />
+            <div>
+                <starcounter-include partial="{{item}}"></starcounter-include>
+            </div>
         </template>
         <hr>
 
