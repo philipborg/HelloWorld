@@ -2,7 +2,7 @@ using Starcounter;
 
 namespace HelloWorld
 {
-    partial class PersonJson : Json
+    partial class PersonJson : Json, IBound<Spender>
     {
         static PersonJson()
         {
@@ -10,5 +10,20 @@ namespace HelloWorld
         }
 
         public string FullName => FirstName + " " + LastName;
+
+        public void DeleteAllExpenses()
+        {
+            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
+            this.Expenses.Clear();
+        }
+
+        public void AddNewExpense()
+        {
+            new Expense()
+            {
+                Spender = this.Data,
+                Amount = 1
+            };
+        }
     }
 }
