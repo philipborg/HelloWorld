@@ -38,6 +38,18 @@ namespace HelloWorld
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
+            Handle.GET("/HelloWorld/Controls", () =>
+            {
+                var json = new ControlsJson();
+
+                if (Session.Current == null)
+                {
+                    Session.Current = new Session(SessionOptions.PatchVersioning);
+                }
+                json.Session = Session.Current;
+                return json;
+            });
+
             Handle.GET("/HelloWorld", () =>
             {
                 return Db.Scope(() =>
@@ -53,7 +65,7 @@ namespace HelloWorld
                         Session.Current = new Session(SessionOptions.PatchVersioning);
                     }
                     json.Session = Session.Current;
-
+                    //json.Controls = Self.GET<ControlsJson>("/HelloWorld/Controls");
                     return json;
                 });
             });

@@ -79,6 +79,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlsJson.json.cs">
+      <DependentUpon>ControlsJson.json</DependentUpon>
+    </Compile>
     <Compile Include="ExpenseJson.json.cs">
       <DependentUpon>ExpenseJson.json</DependentUpon>
     </Compile>
@@ -106,6 +109,10 @@
     </TypedJSON>
   </ItemGroup>
   <ItemGroup>
+    <TypedJSON Include="ControlsJson.json">
+      <Generator>MsBuild:Compile</Generator>
+    </TypedJSON>
+    <None Include="wwwroot\HelloWorld\ControlsJson.html" />
     <Content Include="wwwroot\HelloWorld\ExpenseJson.html" />
     <Content Include="wwwroot\HelloWorld\PersonJson.html" />
   </ItemGroup>
