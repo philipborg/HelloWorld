@@ -4,6 +4,8 @@ namespace HelloWorld
 {
     partial class ControlsJson : Json
     {
+        private PersonJson parentJson => this.Parent as PersonJson;
+
         void Handle(Input.SaveTrigger action)
         {
             Transaction.Commit();
@@ -18,15 +20,15 @@ namespace HelloWorld
         {
             new Expense()
             {
-                Spender = (this.Parent as PersonJson).Data as Spender,
+                Spender = parentJson.Data as Spender,
                 Amount = 1
             };
         }
 
         void Handle(Input.DeleteAllTrigger action)
         {
-            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", this.Data);
-            (this.Parent as PersonJson).Expenses.Clear();
+            Db.SlowSQL("DELETE FROM Expense WHERE Spender = ?", parentJson.Data);
+            parentJson.Expenses.Clear();
         }
     }
 }
