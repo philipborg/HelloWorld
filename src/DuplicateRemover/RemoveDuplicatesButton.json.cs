@@ -2,6 +2,7 @@ using System;
 using Simplified.Ring1;
 using Starcounter;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DuplicateRemover
 {
@@ -11,19 +12,31 @@ namespace DuplicateRemover
         {
             QueryResultRows<Something> items = Db.SQL<Something>("SELECT s FROM Simplified.Ring1.Something s");
 
-            FindDuplicates(items);
+            DeleteDuplicates(items);
         }
 
-        private void FindDuplicates(QueryResultRows<Something> items)
+        private void DeleteDuplicates(QueryResultRows<Something> items)
         {
             List<string> descriptions = new List<string>();
-            foreach(Something item in items)
+            foreach (Something item in items)
             {
-                if (descriptions.Contains(item.Description)){
-                    item.Delete();
-                } else
+                if (item.GetType().Name == "Expense")
                 {
-                    descriptions.Add(item.Description);
+                    if (descriptions.Contains(item.Description))
+                    {
+                        if (Transaction != null)
+                        {
+                            item.Delete();
+                        }
+                        else
+                        {
+                            Db.Transact(() => item.Delete());
+                        }
+                    }
+                    else
+                    {
+                        descriptions.Add(item.Description);
+                    }
                 }
             }
         }
