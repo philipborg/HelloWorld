@@ -1,14 +1,12 @@
+using System;
 using Starcounter;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace HelloWorld
 {
     partial class PersonJson : Json, IBound<Spender>
     {
-        static PersonJson()
-        {
-            DefaultTemplate.Expenses.ElementType.InstanceType = typeof(ExpenseJson);
-        }
-
         public string FullName => FirstName + " " + LastName;
 
         public void DeleteAllExpenses()
@@ -24,6 +22,15 @@ namespace HelloWorld
                 Spender = this.Data,
                 Amount = 1
             };
+
+            this.PopulateExpenses();
+        }
+
+        public void PopulateExpenses()
+        {
+            IEnumerable<ExpenseJson> expenseJson = this.Data.Expenses.Select(x => Self.GET<ExpenseJson>("/HelloWorld/partial/expense/" + x.GetObjectID()));
+            this.Expenses.Clear();
+            expenseJson.ToList().ForEach(x => this.Expenses.Add(x));
         }
     }
 }

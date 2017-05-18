@@ -26,7 +26,7 @@ namespace HelloWorld
             {
                 var anyone = Db.SQL<Spender>("SELECT s FROM Spender s").First;
                 if (anyone == null)
-                { 
+                {
                     new Spender()
                     {
                         FirstName = "John",
@@ -58,10 +58,15 @@ namespace HelloWorld
                         Session = Session.Current
                     };
 
+                    json.PopulateExpenses();
+
                     return json;
                 });
             });
 
+            Handle.GET("/HelloWorld/partial/expense/{?}", (string id) => new ExpenseJson { Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id)) });
+
+            Blender.MapUri("/HelloWorld/partial/expense/{?}", "expense");
             Blender.MapUri("/HelloWorld/Controls", "controls");
         }
     }
