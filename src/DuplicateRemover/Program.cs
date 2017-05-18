@@ -1,5 +1,5 @@
-﻿using System;
-using Starcounter;
+﻿using Starcounter;
+using Simplified.Ring1;
 
 namespace DuplicateRemover
 {
@@ -15,6 +15,12 @@ namespace DuplicateRemover
                 return new RemoveDuplicatesButton();
             });
 
+            Handle.GET("/DuplicateRemover/partial/RemoveButton/{?}", (string objectId) =>
+            {
+                return new RemoveButton() { ObjectKey = objectId };
+            });
+
+            Blender.MapUri<Something>("/DuplicateRemover/partial/RemoveButton/{?}");
             Blender.MapUri("/DuplicateRemover/partial/RemoveDuplicatesButton", "controls");
         }
     }

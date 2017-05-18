@@ -66,7 +66,7 @@ namespace HelloWorld
 
             Handle.GET("/HelloWorld/partial/expense/{?}", (string id) => new ExpenseJson { Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id)) });
 
-            Blender.MapUri("/HelloWorld/partial/expense/{?}", "expense");
+            Blender.MapUri<Something>("/HelloWorld/partial/expense/{?}");
             Blender.MapUri("/HelloWorld/Controls", "controls");
         }
     }
