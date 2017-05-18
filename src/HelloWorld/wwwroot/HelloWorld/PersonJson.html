@@ -11,7 +11,11 @@
             <label>Last name:</label>
             <input value="{{model.LastName$::input}}">
         </fieldset>
+
+        <hr />
+
         <starcounter-include partial="{{model.Controls}}"></starcounter-include>
+        
         <hr>
 
         <template is="dom-repeat" items="{{model.Expenses}}">
@@ -20,6 +24,8 @@
             </div>
         </template>
         <hr>
+
+        <button value="{{model.NewExpenseTrigger$::click}}" onmousedown="++this.value">Add new expense</button>
 
         <h2>Current Balance: {{model.CurrentBalance}}</h2>
     </template>
