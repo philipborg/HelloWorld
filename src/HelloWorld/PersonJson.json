@@ -5,5 +5,6 @@
   "FullName": "",
   "Expenses": [{}],
   "CurrentBalance": 0,
-  "Controls": {}
+  "Controls": { },
+  "NewExpenseTrigger$": 0
 }
