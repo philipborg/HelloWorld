@@ -64,6 +64,12 @@ namespace HelloWorld
                 });
             });
 
+            Hook<Expense>.CommitDelete += (s, obj) =>
+            {
+                var json = Session.Current.Data as PersonJson;
+                json.PopulateExpenses();
+            };
+
             Handle.GET("/HelloWorld/partial/expense/{?}", (string id) => new ExpenseJson { Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id)) });
 
             Blender.MapUri<Something>("/HelloWorld/partial/expense/{?}");

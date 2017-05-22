@@ -1,8 +1,6 @@
-using System;
 using Simplified.Ring1;
 using Starcounter;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DuplicateRemover
 {
@@ -24,14 +22,7 @@ namespace DuplicateRemover
                 {
                     if (descriptions.Contains(item.Description))
                     {
-                        if (Transaction != null)
-                        {
-                            item.Delete();
-                        }
-                        else
-                        {
-                            Db.Transact(() => item.Delete());
-                        }
+                        item.Delete();
                     }
                     else
                     {
@@ -39,6 +30,7 @@ namespace DuplicateRemover
                     }
                 }
             }
+            Transaction.Commit();
         }
     }
 }
