@@ -38,7 +38,6 @@ namespace HelloWorld
             Application.Current.Use(new HtmlFromJsonProvider());
             Application.Current.Use(new PartialToStandaloneHtmlProvider());
 
-            Handle.GET("/HelloWorld/Controls", () => new ControlsJson());
 
             Handle.GET("/HelloWorld", () =>
             {
@@ -70,10 +69,18 @@ namespace HelloWorld
                 json.PopulateExpenses();
             };
 
-            Handle.GET("/HelloWorld/partial/expense/{?}", (string id) => new ExpenseJson { Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id)) });
+            Handle.GET("/HelloWorld/Controls", () => new ControlsJson());
 
-            Blender.MapUri<Something>("/HelloWorld/partial/expense/{?}");
+            Handle.GET("/HelloWorld/partial/expense/{?}", (string id) =>
+            {
+                return new ExpenseJson
+                {
+                    Data = DbHelper.FromID(DbHelper.Base64DecodeObjectID(id))
+                };
+            });
+
             Blender.MapUri("/HelloWorld/Controls", "controls");
+            Blender.MapUri<Something>("/HelloWorld/partial/expense/{?}");
         }
     }
 }

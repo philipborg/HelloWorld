@@ -12,7 +12,13 @@ namespace DuplicateRemover
 
             Handle.GET("/DuplicateRemover/partial/RemoveDuplicatesButton", () => new RemoveDuplicatesButton());
 
-            Handle.GET("/DuplicateRemover/partial/RemoveButton/{?}", (string objectId) => new RemoveButton() { Key = objectId });
+            Handle.GET("/DuplicateRemover/partial/RemoveButton/{?}", (string objectId) =>
+            {
+                return new RemoveButton()
+                {
+                    Key = objectId
+                };
+            }); 
 
             Blender.MapUri<Something>("/DuplicateRemover/partial/RemoveButton/{?}");
             Blender.MapUri("/DuplicateRemover/partial/RemoveDuplicatesButton", "controls");
