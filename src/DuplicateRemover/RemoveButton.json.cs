@@ -8,7 +8,7 @@ namespace DuplicateRemover
     {
         void Handle(Input.RemoveTrigger action)
         {
-            Something item = Db.SQL<Something>("SELECT s FROM Simplified.Ring1.Something s WHERE s.ObjectId = ?", this.ObjectKey).FirstOrDefault();
+            Something item = Db.SQL<Something>("SELECT s FROM Simplified.Ring1.Something s WHERE s.ObjectId = ?", this.Key).FirstOrDefault();
 
             Db.Transact(() => item.Delete());
 
